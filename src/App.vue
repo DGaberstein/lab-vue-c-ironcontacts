@@ -1,19 +1,78 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <div id="app">
+    <h1>Contact List</h1>
+    <button @click="addRandomContact">Add Random Contact</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Picture</th>
+          <th>Name</th>
+          <th>Popularity</th>
+          <th>Won an Oscar</th>
+          <th>Won an Emmy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="contact in contacts" :key="contact.id">
+          <td><img :src="contact.pictureUrl" alt="contact.name" height="100"></td>
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.popularity }}</td>
+          <td>{{ contact.wonOscar ? '🏆' : '' }}</td>
+          <td>{{ contact.wonEmmy ? '🏆' : '' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
-<script setup>
-import HelloWorld from './components/HelloWorld.vue';
+<script>
+import { ref } from 'vue';
+import contactsData from './contacts.json';
+
+export default {
+  name: 'App',
+  setup() {
+    const contacts = ref(contactsData.slice(0, 5));
+
+    const addRandomContact = () => {
+      const remainingContacts = contactsData.filter(contact => !contacts.value.includes(contact));
+      if (remainingContacts.length === 0) return;
+      const randomContact = remainingContacts[Math.floor(Math.random() * remainingContacts.length)];
+      contacts.value.push(randomContact);
+    };
+
+    const sortByName = () => {
+      contacts.value.sort((a, b) => a.name.localeCompare(b.name));
+    };
+
+    const sortByPopularity = () => {
+      contacts.value.sort((a, b) => b.popularity - a.popularity);
+    };
+
+    return { contacts, addRandomContact, sortByName, sortByPopularity };
+  },
+};
 </script>
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+img {
+  border-radius: 50%;
 }
 </style>
