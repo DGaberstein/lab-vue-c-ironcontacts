@@ -65,14 +65,17 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px;
 }
 
-img {
-  border-radius: 50%;
+th {
+  background-color: #4CAF50;
+  color: white;
 }
 </style>
