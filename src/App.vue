@@ -2,6 +2,8 @@
   <div id="app">
     <h1>Contact List</h1>
     <button @click="addRandomContact">Add Random Contact</button>
+    <button @click="sortByName">Sort by Name</button>
+    <button @click="sortByPopularity">Sort by Popularity</button>
     <table>
       <thead>
         <tr>
@@ -10,6 +12,7 @@
           <th>Popularity</th>
           <th>Won an Oscar</th>
           <th>Won an Emmy</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +22,7 @@
           <td>{{ contact.popularity }}</td>
           <td>{{ contact.wonOscar ? '🏆' : '' }}</td>
           <td>{{ contact.wonEmmy ? '🏆' : '' }}</td>
+          <td><button @click="removeContact(contact.id)">Delete</button></td>
         </tr>
       </tbody>
     </table>
@@ -49,7 +53,11 @@ export default {
       contacts.value.sort((a, b) => b.popularity - a.popularity);
     };
 
-    return { contacts, addRandomContact, sortByName, sortByPopularity };
+    const removeContact = (id) => {
+      contacts.value = contacts.value.filter(contact => contact.id !== id);
+    };
+    
+    return { contacts, addRandomContact, sortByName, sortByPopularity, removeContact };
   },
 };
 </script>
